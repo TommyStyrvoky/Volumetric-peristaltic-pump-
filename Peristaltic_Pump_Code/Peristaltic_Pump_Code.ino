@@ -54,13 +54,13 @@ void loop() {
   }
   Pump();
 }
-void SerialInterface() {
+void SerialInterface() { // Serial data interface with pump
   if (i > 5) {
     i = 0;
   }
   SerialData = Serial.readString();    // read the incoming data
   SerialData.remove((SerialData.length() - 1));
-  switch (i) {//assign to setting
+  switch (i) {//assign to pump setting
     case 0:
       Serial.println("PumpMode");
       PumpMode = SerialData.toInt();
@@ -68,12 +68,12 @@ void SerialInterface() {
       break;
     case 1:
       Serial.println("ms");
-      ms = SerialData.toInt();
+      ms = SerialData.toInt();//ms per step
       LCDMenu();
       break;
     case 2:
-      Serial.println("ms2");
-      TimePerHStep = SerialData.toInt();
+      Serial.println("µs");
+      TimePerHStep = SerialData.toInt(); //µs per step
       LCDMenu();
       break;
     case 3:
@@ -100,7 +100,7 @@ void ButtonMode() {
     delay(250);
   }
 }
-void LCDMenu() {//menu
+void LCDMenu() {//LCD menu top line
   lcd.clear();
   MenuValue = constrain(MenuValue , 0 , 6);
   if (ButtonValue == LOW) {
@@ -119,7 +119,7 @@ void LCDMenu() {//menu
   lcd.setCursor(0, 1);
   LCDbottom();
 }
-void LCDbottom() {
+void LCDbottom() { //LCD menu bottom line
   ms = constrain(ms, 0, 1000);
   VolumeToDeliver = constrain(VolumeToDeliver, 0.00 , 1000.00);
   double Flow = ((60000.000 / 2) / (TimePerHStep + (ms / 1000.00)))  / StepsPermL; //flowrate of the pump in mL/min
@@ -213,10 +213,9 @@ void LCDbottom() {
         lcd.print("mL");
         break;
       }
-
   }
 }
-void Pump() {// Pump settings
+void Pump() {// Pump mode
   int BlowoutVolume = Blowout * StepsPermL; //Blowout volume
   long Totali = VolumeToDeliver * StepsPermL; // number of steps needed for pump to deliver specified volume
   if (PumpMode == 1) {// Continuous volume delivery mode
