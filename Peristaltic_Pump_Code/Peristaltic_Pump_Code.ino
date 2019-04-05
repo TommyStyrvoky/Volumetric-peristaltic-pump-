@@ -15,7 +15,7 @@ String Pumpmode[] = {"Off             ", "Continouous       ", "Volumetric      
 String SerialData;
 int MenuValue = 0, PumpMode = 0, i = 0;
 boolean ButtonValue = LOW, Direction = LOW;
-int StepsPermL = 2400;// internal value for calibration of the pump
+int StepsPermL = 2080;// internal value for calibration of the pump
 int MinStepTime = 600;//minimum step duration
 int ms = MinStepTime;// time in microseconds
 int TimePerHStep = 0;//time in milliseconds per full step
@@ -122,8 +122,8 @@ void LCDMenu() {//menu
 void LCDbottom() {
   ms = constrain(ms, 0, 1000);
   VolumeToDeliver = constrain(VolumeToDeliver, 0.00 , 1000.00);
-  double Flow = (60000.00 / (TimePerHStep + (ms / 1000.00)))  / StepsPermL; //flowrate of the pump in mL/min
-  Flow = constrain(Flow, 0, 41.67);
+  double Flow = ((60000.000/2) / (TimePerHStep + (ms / 1000.00)))  / StepsPermL; //flowrate of the pump in mL/min
+  Flow = constrain(Flow, 0, 25);
   switch (MenuValue) {
     case 0:
       if (ButtonValue == HIGH) {
@@ -171,8 +171,8 @@ void LCDbottom() {
         }
         break;
       case 3:
-        if (ButtonValue == HIGH) {// decreases volume to deliver
-          VolumeToDeliverInt += encoder.getValue();
+        if (ButtonValue == HIGH) {//  volume to deliver
+          VolumeToDeliverInt += 5 * encoder.getValue();
           VolumeToDeliver = VolumeToDeliverInt / 100.00;
           if (VolumeToDeliver < 0) {
             VolumeToDeliver = 0;
@@ -197,14 +197,14 @@ void LCDbottom() {
         }
         break;
       case 5:
-        if (ButtonValue == HIGH) {// decreases StepsPermL
+        if (ButtonValue == HIGH) {//StepsPermL
           StepsPermL += encoder.getValue();
         }
         lcd.print(StepsPermL);
-        lcd.print("mL");
+        lcd.print("Steps");
         break;
       case 6:
-        if (ButtonValue == HIGH) {// decreases Blowoutvolume
+        if (ButtonValue == HIGH) {// Blowoutvolume
           Blowoutint += encoder.getValue();
           Blowout = Blowoutint / 100.00;
         }
