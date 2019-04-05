@@ -19,7 +19,7 @@ int StepsPermL = 2080;// internal value for calibration of the pump
 int MinStepTime = 600;//minimum step duration
 int ms = MinStepTime;// time in microseconds
 int TimePerHStep = 0;//time in milliseconds per full step
-double VolumeToDeliver;//volume to deliver in pump mode 3
+double VolumeToDeliver;//volume to deliver in volumetric mode
 int VolumeToDeliverInt;
 int Blowoutint = 15;
 double Blowout = Blowoutint / 100.00;
@@ -122,7 +122,7 @@ void LCDMenu() {//menu
 void LCDbottom() {
   ms = constrain(ms, 0, 1000);
   VolumeToDeliver = constrain(VolumeToDeliver, 0.00 , 1000.00);
-  double Flow = ((60000.000/2) / (TimePerHStep + (ms / 1000.00)))  / StepsPermL; //flowrate of the pump in mL/min
+  double Flow = ((60000.000 / 2) / (TimePerHStep + (ms / 1000.00)))  / StepsPermL; //flowrate of the pump in mL/min
   Flow = constrain(Flow, 0, 25);
   switch (MenuValue) {
     case 0:
@@ -218,7 +218,6 @@ void LCDbottom() {
 }
 void Pump() {// Pump settings
   int BlowoutVolume = Blowout * StepsPermL; //Blowout volume
-  double Flow = (60000.00 / (TimePerHStep + (ms / 1000.00)))  / StepsPermL; //flowrate of the pump in mL/min
   long Totali = VolumeToDeliver * StepsPermL; // number of steps needed for pump to deliver specified volume
   if (PumpMode == 1) {// Continuous volume delivery mode
     Step();
