@@ -1,9 +1,8 @@
-//Peristaltic pump sketch by Tommy Styrvoky
+//Peristaltic pump sketch by Tommy Styrvoky https://github.com/TommyStyrvoky/Volumetric-peristaltic-pump-
 #include <TimerOne.h>//https://github.com/arduino-libraries/LiquidCrystal
 #include <Bounce2.h>// https://github.com/thomasfredericks/Bounce2
 Bounce debouncer = Bounce();
 #define BUTTON 4
-#include <EEPROM.h>
 #include<LiquidCrystal.h>
 LiquidCrystal lcd(12, 11, 10, 9, 8, 7);
 #include <ClickEncoder.h>//https://github.com/0xPIT/encoder/tree/arduino
@@ -172,14 +171,12 @@ void LCDbottom() {
         if (ButtonValue == HIGH) {// StepsPermL
           StepsPermL += encoder.getValue();
         }
-        //EEPROM.write(StepsPermL, 1);
         lcd.print(StepsPermL);
-        lcd.print("mL");
+        lcd.print("Steps per mL");
         break;
       case 6:
         if (ButtonValue == HIGH) {// Blowoutvolume
           Blowoutint += encoder.getValue();
-          //EEPROM.write(Blowoutint, 2);
           Blowout = Blowoutint / 100.00;
         }
         lcd.print(Blowout);
