@@ -1,4 +1,5 @@
 //Peristaltic pump sketch by Tommy Styrvoky https://github.com/TommyStyrvoky/Volumetric-peristaltic-pump-
+//Thingiverse link for 3D printed parts https://www.thingiverse.com/thing:3637925
 #include <TimerOne.h>//https://github.com/arduino-libraries/LiquidCrystal
 #include <Bounce2.h>// https://github.com/thomasfredericks/Bounce2
 Bounce debouncer = Bounce();
